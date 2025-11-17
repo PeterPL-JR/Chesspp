@@ -11,6 +11,8 @@ add_executable(Chesspp main.cpp
         chess/Field.cpp
         chess/Field.h
         chess/Chessboard.cpp
-        chess/Chessboard.h)
+        chess/Chessboard.h
+        graphics/Image.cpp
+        graphics/Image.h)
 
 target_link_libraries(Chesspp sfml-system sfml-window sfml-graphics sfml-audio sfml-network)
