@@ -13,14 +13,12 @@ public:
 
     const sf::Color main_colour, border_colour;
 
-    Field(sf::Color main_colour, sf::Color border_colour, float size);
+    static float size;
 
-    void render(float x, float y, Window* window);
+    Field(sf::Color main_colour, sf::Color border_colour);
 
-    float get_size();
-    void set_size(float size);
+    void draw(float x, float y, Window* window);
 private:
-    float size;
     sf::RectangleShape field, border_x, border_y;
 };
 
