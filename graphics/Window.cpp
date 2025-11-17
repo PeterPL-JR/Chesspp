@@ -6,7 +6,8 @@
 std::string Window::TITLE = "Chess++";
 
 Window::Window(int width, int height, std::string* title, void (&render_func)()) : render_func(render_func) {
-    window = new sf::RenderWindow(sf::VideoMode(width, height), *title);
+    window = new sf::RenderWindow(sf::VideoMode(width, height), *title, sf::Style::Close | sf::Style::Titlebar);
+    window->setFramerateLimit(60);
 }
 
 Window::~Window() {
