@@ -1,6 +1,7 @@
 #include "Window.h"
 
 #include <SFML/Window.hpp>
+#include <SFML/Graphics.hpp>
 
 std::string Window::TITLE = "Chess++";
 
@@ -20,6 +21,13 @@ void Window::stop() {
     window->close();
 }
 
+void Window::draw(sf::Drawable* drawable) {
+    window->draw(*drawable);
+}
+
+void Window::render() {
+}
+
 void Window::game_loop() {
     while (window->isOpen()) {
         sf::Event event{};
@@ -30,6 +38,7 @@ void Window::game_loop() {
         }
 
         window->clear(sf::Color::Black);
+        render();
         window->display();
     }
 }

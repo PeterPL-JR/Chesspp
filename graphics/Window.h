@@ -16,6 +16,9 @@ public:
     void start();
     void stop();
 
+    void draw(sf::Drawable* drawable);
+
+    void render();
 private:
     sf::RenderWindow* window;
 
