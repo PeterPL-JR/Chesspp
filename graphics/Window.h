@@ -10,7 +10,7 @@ public:
 
     static std::string TITLE;
 
-    Window(int width, int height, std::string* title);
+    Window(int width, int height, std::string* title, void (&render_func)());
     ~Window();
 
     void start();
@@ -21,6 +21,7 @@ public:
     void render();
 private:
     sf::RenderWindow* window;
+    void (&render_func)();
 
     void game_loop();
 };

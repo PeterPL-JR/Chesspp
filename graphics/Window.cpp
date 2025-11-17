@@ -5,7 +5,7 @@
 
 std::string Window::TITLE = "Chess++";
 
-Window::Window(int width, int height, std::string* title) {
+Window::Window(int width, int height, std::string* title, void (&render_func)()) : render_func(render_func) {
     window = new sf::RenderWindow(sf::VideoMode(width, height), *title);
 }
 
@@ -26,6 +26,7 @@ void Window::draw(sf::Drawable* drawable) {
 }
 
 void Window::render() {
+    render_func();
 }
 
 void Window::game_loop() {
