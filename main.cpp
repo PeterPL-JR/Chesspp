@@ -1,6 +1,7 @@
 #include "graphics/Window.h"
 
 #include "chess/Chessboard.h"
+#include "chess/Piece.h"
 
 Chessboard chessboard;
 Window* window;
@@ -13,6 +14,8 @@ void render() {
 }
 
 int main() {
+    Piece::init();
+
     window = new Window(Window::WIDTH, Window::HEIGHT, &Window::TITLE, render);
     window->start();
 }

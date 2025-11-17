@@ -12,6 +12,8 @@ add_executable(Chesspp main.cpp
         chess/Field.h
         chess/Chessboard.cpp
         chess/Chessboard.h
+        chess/Piece.cpp
+        chess/Piece.h
         graphics/Image.cpp
         graphics/Image.h)
 
