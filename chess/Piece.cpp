@@ -3,9 +3,11 @@
 
 std::map<Piece::Type, std::map<Piece::Colour, std::unique_ptr<Image>>> Piece::IMAGES;
 
-sf::Texture Piece::TEXTURE = Image::load_texture("chess");
+sf::Texture TEXTURE = Image::load_texture("chess");
 
-Piece::Piece(Type type, Colour colour) : type(type), colour(colour) {
+constexpr int IMG_PIECE_SIZE = 16;
+
+Piece::Piece(Type type, Colour colour, int x, int y) : type(type), colour(colour), x(x), y(y) {
     image = IMAGES[type][colour].get();
 }
 
@@ -22,8 +24,16 @@ void Piece::draw(Type type, Colour colour, float x, float y, Window *window) {
     IMAGES[type][colour].get()->draw(x, y, window);
 }
 
+int Piece::get_x() {
+    return x;
+}
+
+int Piece::get_y() {
+    return y;
+}
+
 void Piece::init_piece_type(Type type, int tex_pos) {
     int x_pos = tex_pos * IMG_PIECE_SIZE;
     IMAGES[type][LIGHT] = std::make_unique<Image>(&TEXTURE, x_pos, 0, IMG_PIECE_SIZE, IMG_PIECE_SIZE, Field::size, Field::size);
-    IMAGES[type][DARK] = std::make_unique<Image>(&TEXTURE, x_pos, 1, IMG_PIECE_SIZE, IMG_PIECE_SIZE, Field::size, Field::size);
+    IMAGES[type][DARK] = std::make_unique<Image>(&TEXTURE, x_pos, IMG_PIECE_SIZE, IMG_PIECE_SIZE, IMG_PIECE_SIZE, Field::size, Field::size);
 }

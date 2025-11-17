@@ -4,8 +4,6 @@
 #include <map>
 #include <memory>
 
-#include <SFML/Graphics.hpp>
-
 #include "../graphics/Image.h"
 
 class Piece {
@@ -22,16 +20,17 @@ public:
 
     static std::map<Type, std::map<Colour, std::unique_ptr<Image>>> IMAGES;
 
-    Piece(Type type, Colour colour);
+    Piece(Type type, Colour colour, int x, int y);
 
     static void init();
 
     static void draw(Type type, Colour colour, float x, float y, Window* window);
-private:
-    Image* image;
 
-    static sf::Texture TEXTURE;
-    static constexpr int IMG_PIECE_SIZE = 16;
+    int get_x();
+    int get_y();
+private:
+    int x, y;
+    Image* image;
 
     static void init_piece_type(Type type, int tex_pos);
 };
