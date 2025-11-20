@@ -1,8 +1,5 @@
 #include "Window.h"
 
-#include <SFML/Window.hpp>
-#include <SFML/Graphics.hpp>
-
 std::string Window::TITLE = "Chess++";
 
 Window::Window(int width, int height, std::string* title, void (&render_func)()) : render_func(render_func) {
@@ -30,12 +27,19 @@ void Window::render() {
     render_func();
 }
 
+void Window::set_mouse_listener(void (*mouse_listener)(int, int, sf::Mouse::Button)) {
+    this->mouse_listener = mouse_listener;
+}
+
 void Window::game_loop() {
     while (window->isOpen()) {
         sf::Event event{};
         while (window->pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
                 stop();
+            }
+            if (event.type == sf::Event::MouseButtonPressed && mouse_listener != nullptr) {
+                (*mouse_listener)(event.mouseButton.x, event.mouseButton.y, event.mouseButton.button);
             }
         }
 

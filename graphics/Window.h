@@ -1,7 +1,7 @@
 #ifndef CHESSPP_WINDOW_H
 #define CHESSPP_WINDOW_H
 
-#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics.hpp>
 
 class Window {
 public:
@@ -19,9 +19,12 @@ public:
     void draw(sf::Drawable* drawable);
 
     void render();
+
+    void set_mouse_listener(void (*mouse_listener)(int, int, sf::Mouse::Button));
 private:
     sf::RenderWindow* window;
     void (&render_func)();
+    void (*mouse_listener)(int, int, sf::Mouse::Button) = nullptr;
 
     void game_loop();
 };
