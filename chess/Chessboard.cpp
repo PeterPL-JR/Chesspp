@@ -2,8 +2,8 @@
 
 #include "Piece.h"
 
-Field Chessboard::LIGHT_FIELD(sf::Color(227, 195, 135), sf::Color(160, 137, 94));
-Field Chessboard::DARK_FIELD(sf::Color(101, 51, 24), sf::Color(53, 28, 14));
+Field Chessboard::LIGHT_FIELD(0xE3C387, 0xA0895E);
+Field Chessboard::DARK_FIELD(0x653318, 0x351C0E);
 
 const Piece::Type PIECES_ORDER[8] = {
     Piece::ROOK,

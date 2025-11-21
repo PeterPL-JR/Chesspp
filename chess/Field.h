@@ -3,19 +3,20 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "../graphics/Colour.h"
 #include "../graphics/Window.h"
 
 class Field {
 public:
     struct Type {
-        sf::Color main_colour, border_colour;
+        Colour main_colour, border_colour;
     };
 
     const sf::Color main_colour, border_colour;
 
     static float size;
 
-    Field(sf::Color main_colour, sf::Color border_colour);
+    Field(int main_colour, int border_colour);
 
     void draw(float x, float y, Window* window);
 private:
