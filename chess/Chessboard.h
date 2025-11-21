@@ -4,10 +4,14 @@
 #include "Field.h"
 #include "Piece.h"
 
+#include "../graphics/Box.h"
+
 class Chessboard {
 public:
     static Field LIGHT_FIELD;
     static Field DARK_FIELD;
+
+    static Box CLICK_BOX;
 
     static constexpr int SIZE = 8;
 
@@ -15,10 +19,18 @@ public:
 
     void draw(int x, int y, Window* window);
 
+    void click(int x, int y);
+
     Piece* get_piece(int x, int y);
+
+    Piece::Colour get_turn();
+    void change_turn();
 private:
     Piece* board[SIZE][SIZE] = {};
-    std::vector<Piece> pieces;
+    std::vector<Piece*> pieces;
+    Piece::Colour turn = Piece::LIGHT;
+
+    Piece* clicked_piece;
 
     void set_piece(int x, int y, Piece* piece);
 

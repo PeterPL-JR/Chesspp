@@ -3,15 +3,10 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "../graphics/Colour.h"
 #include "../graphics/Window.h"
 
 class Field {
 public:
-    struct Type {
-        Colour main_colour, border_colour;
-    };
-
     const sf::Color main_colour, border_colour;
 
     static float size;
