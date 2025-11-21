@@ -1,5 +1,7 @@
 #include "Colour.h"
 
+const int Colour::Transparent = -1;
+
 Colour::Colour(int r, int g, int b) : r(r), g(g), b(b) {
     hex = (r << 16) | (g << 8) | b;
     colour = sf::Color(r, g, b);

@@ -5,7 +5,6 @@
 
 class Colour {
 public:
-
     Colour(int r, int g, int b);
     Colour(int hex);
 
@@ -17,6 +16,7 @@ public:
 
     sf::Color get();
 
+    static const int Transparent;
 private:
     int r, g, b, hex;
     sf::Color colour;
