@@ -5,12 +5,14 @@
 
 class Colour {
 public:
+    Colour(int r, int g, int b, int alpha);
     Colour(int r, int g, int b);
     Colour(int hex);
 
     int get_r();
     int get_g();
     int get_b();
+    int get_alpha();
 
     int get_hex();
 
@@ -18,7 +20,7 @@ public:
 
     static const int Transparent;
 private:
-    int r, g, b, hex;
+    int r, g, b, alpha, hex;
     sf::Color colour;
 };
 

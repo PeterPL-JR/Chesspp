@@ -2,10 +2,10 @@
 #include "Piece.h"
 #include "../graphics/Colour.h"
 
-Field Chessboard::LIGHT_FIELD(0xE3C387, 0xA0895E);
-Field Chessboard::DARK_FIELD(0x653318, 0x351C0E);
+Field Chessboard::LIGHT_FIELD(0xFFE3C387, 0xFFA0895E);
+Field Chessboard::DARK_FIELD(0xFF653318, 0xFF351C0E);
 
-Box Chessboard::CLICK_BOX(0xaba888, 0x737362);
+Box Chessboard::CLICK_BOX(0xFFABA888, 0xFF737362);
 
 const Piece::Type PIECES_ORDER[8] = {
     Piece::ROOK,
