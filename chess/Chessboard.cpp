@@ -66,6 +66,12 @@ void Chessboard::click(int x, int y) {
     if (!(field_xi < SIZE && field_yi < SIZE)) return;
 
     Piece* piece = get_piece(field_xi, field_yi);
+
+    if (piece == nullptr && clicked_piece != nullptr) {
+        try_move_piece(clicked_piece, field_xi, field_yi);
+        return;
+    }
+
     if (clicked_piece == piece) {
         clicked_piece = nullptr;
         return;
@@ -143,6 +149,17 @@ void Chessboard::add_new_piece(Piece::Type type, Piece::Colour colour, int x, in
     Piece* piece = new Piece(type, colour, x, y, this);
     pieces.push_back(piece);
     set_piece(x, y, piece);
+}
+
+void Chessboard::try_move_piece(Piece *piece, int x, int y) {
+    for (Piece::Move move : *(piece->get_moves())) {
+        if (move.x == x && move.y == y) {
+            move_piece(piece, x, y);
+            clicked_piece = nullptr;
+            change_turn();
+            return;
+        }
+    }
 }
 
 bool Chessboard::is_field_valid(int x, int y) {

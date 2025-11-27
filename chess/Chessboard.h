@@ -51,6 +51,8 @@ private:
 
     void add_new_piece(Piece::Type type, Piece::Colour colour, int x, int y);
 
+    void try_move_piece(Piece* piece, int x, int y);
+
     bool is_field_valid(int x, int y);
 };
 
