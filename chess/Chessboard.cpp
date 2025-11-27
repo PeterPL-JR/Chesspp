@@ -7,6 +7,9 @@ Field Chessboard::DARK_FIELD(0xFF653318, 0xFF351C0E);
 
 Box Chessboard::CLICK_BOX(0xFFABA888, 0xFF737362);
 
+Circle Chessboard::MOVE_CIRCLE(0x36000000, 0, 0.45, 0);
+Circle Chessboard::CAPTURE_CIRCLE(0, 0x36000000, 0.85, 0.15);
+
 const Piece::Type PIECES_ORDER[8] = {
     Piece::ROOK,
     Piece::KNIGHT,
@@ -31,6 +34,17 @@ void Chessboard::draw(int x, int y, Window* window) {
 
             Field field = (i + j) % 2 == 0 ? LIGHT_FIELD : DARK_FIELD;
             field.draw(xx, yy, window);
+        }
+    }
+
+    if (clicked_piece != nullptr) {
+        std::vector<Piece::Move>* moves = clicked_piece->get_moves();
+        for (Piece::Move move : *moves) {
+            Piece* piece = get_piece(move.x, move.y);
+            Circle circle = (piece == nullptr) ? MOVE_CIRCLE : CAPTURE_CIRCLE;
+            float xx = move.x * Field::size + x;
+            float yy = move.y * Field::size + y;
+            circle.draw(xx, yy, window);
         }
     }
 
@@ -91,6 +105,15 @@ void Chessboard::init_pieces(Piece::Colour colour, int pieces_y, int pawns_y) {
     for (int i = 0; i < SIZE; i++) {
         add_new_piece(PIECES_ORDER[i], colour, i, pieces_y);
         add_new_piece(Piece::PAWN, colour, i, pawns_y);
+    }
+    update_pieces();
+}
+
+void Chessboard::update_pieces() {
+    for (Piece* piece : pieces) {
+        if (piece->colour == turn) {
+            piece->update_moves();
+        }
     }
 }
 
