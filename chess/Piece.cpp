@@ -1,13 +1,23 @@
 #include "Piece.h"
 #include "Field.h"
 
+#include "Move.h"
+
 std::map<Piece::Type, std::map<Piece::Colour, std::unique_ptr<Image>>> Piece::IMAGES;
+std::map<Piece::Type, std::vector<Piece::Move>* (*)(Piece*)> Piece::GET_MOVES_FUNCTIONS = {
+    {PAWN, &pawn_move},
+    {ROOK, &rook_move},
+    {KNIGHT, &knight_move},
+    {BISHOP, &bishop_move},
+    {QUEEN, &queen_move},
+    {KING, &king_move}
+};
 
 sf::Texture TEXTURE = Image::load_texture("chess");
 
 constexpr int IMG_PIECE_SIZE = 16;
 
-Piece::Piece(Type type, Colour colour, int x, int y) : type(type), colour(colour), x(x), y(y) {
+Piece::Piece(Type type, Colour colour, int x, int y) : type(type), colour(colour), x(x), y(y), get_moves_func(GET_MOVES_FUNCTIONS[type]) {
     image = IMAGES[type][colour].get();
 }
 
@@ -30,6 +40,14 @@ int Piece::get_x() {
 
 int Piece::get_y() {
     return y;
+}
+
+void Piece::update_moves() {
+    moves = get_moves_func(this);
+}
+
+std::vector<Piece::Move>* Piece::get_moves() {
+    return moves;
 }
 
 void Piece::init_piece_type(Type type, int tex_pos) {
