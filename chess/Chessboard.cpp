@@ -87,6 +87,29 @@ Piece::Colour Chessboard::get_turn() {
 
 void Chessboard::change_turn() {
     turn = turn == Piece::LIGHT ? Piece::DARK : Piece::LIGHT;
+    update_pieces();
+}
+
+void Chessboard::move_piece(Piece *piece, int x, int y) {
+    int old_x = piece->get_x();
+    int old_y = piece->get_y();
+
+    if (!is_field_valid(x, y) || is_field_taken(x, y)) return;
+
+    board[old_x][old_y] = nullptr;
+    board[x][y] = piece;
+
+    piece->move(x, y);
+}
+
+void Chessboard::remove_piece(Piece *piece) {
+    board[piece->get_x()][piece->get_y()] = nullptr;
+    pieces.erase(std::remove(pieces.begin(), pieces.end(), piece), pieces.end());
+    delete piece;
+}
+
+bool Chessboard::is_field_taken(int x, int y) {
+    return board[x][y] != nullptr;
 }
 
 void Chessboard::set_piece(int x, int y, Piece *piece) {

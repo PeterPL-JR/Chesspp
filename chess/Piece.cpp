@@ -42,12 +42,22 @@ int Piece::get_y() {
     return y;
 }
 
+void Piece::move(int x, int y) {
+    this->x = x;
+    this->y = y;
+    moved = true;
+}
+
 void Piece::update_moves() {
     moves = get_moves_func(this);
 }
 
 std::vector<Piece::Move>* Piece::get_moves() {
     return moves;
+}
+
+bool Piece::is_moved() {
+    return moved;
 }
 
 Chessboard *Piece::get_chessboard() {

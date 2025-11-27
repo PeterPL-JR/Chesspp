@@ -35,9 +35,13 @@ public:
     int get_x();
     int get_y();
 
+    void move(int x, int y);
+
     void update_moves();
 
     std::vector<Move>* get_moves();
+
+    bool is_moved();
 
     Chessboard* get_chessboard();
 private:
@@ -45,6 +49,7 @@ private:
     Image* image;
     std::vector<Move>* (*get_moves_func)(Piece*);
     std::vector<Move>* moves;
+    bool moved = false;
     Chessboard* chessboard;
 
     static void init_piece_type(Type type, int tex_pos);

@@ -29,6 +29,11 @@ public:
 
     Piece::Colour get_turn();
     void change_turn();
+
+    void move_piece(Piece* piece, int x, int y);
+    void remove_piece(Piece* piece);
+
+    bool is_field_taken(int x, int y);
 private:
     Piece* board[SIZE][SIZE] = {};
     std::vector<Piece*> pieces;
