@@ -4,6 +4,8 @@
 #include <map>
 #include <memory>
 
+class Chessboard;
+
 #include "../graphics/Image.h"
 
 class Piece {
@@ -24,7 +26,7 @@ public:
     static std::map<Type, std::map<Colour, std::unique_ptr<Image>>> IMAGES;
     static std::map<Type, std::vector<Move>* (*)(Piece*)> GET_MOVES_FUNCTIONS;
 
-    Piece(Type type, Colour colour, int x, int y);
+    Piece(Type type, Colour colour, int x, int y, Chessboard* chessboard);
 
     static void init();
 
@@ -36,11 +38,14 @@ public:
     void update_moves();
 
     std::vector<Move>* get_moves();
+
+    Chessboard* get_chessboard();
 private:
     int x, y;
     Image* image;
     std::vector<Move>* (*get_moves_func)(Piece*);
     std::vector<Move>* moves;
+    Chessboard* chessboard;
 
     static void init_piece_type(Type type, int tex_pos);
 };

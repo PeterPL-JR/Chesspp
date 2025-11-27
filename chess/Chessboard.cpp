@@ -1,5 +1,4 @@
 #include "Chessboard.h"
-#include "Piece.h"
 #include "../graphics/Colour.h"
 
 Field Chessboard::LIGHT_FIELD(0xFFE3C387, 0xFFA0895E);
@@ -118,7 +117,7 @@ void Chessboard::update_pieces() {
 }
 
 void Chessboard::add_new_piece(Piece::Type type, Piece::Colour colour, int x, int y) {
-    Piece* piece = new Piece(type, colour, x, y);
+    Piece* piece = new Piece(type, colour, x, y, this);
     pieces.push_back(piece);
     set_piece(x, y, piece);
 }

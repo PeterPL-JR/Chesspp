@@ -17,7 +17,7 @@ sf::Texture TEXTURE = Image::load_texture("chess");
 
 constexpr int IMG_PIECE_SIZE = 16;
 
-Piece::Piece(Type type, Colour colour, int x, int y) : type(type), colour(colour), x(x), y(y), get_moves_func(GET_MOVES_FUNCTIONS[type]) {
+Piece::Piece(Type type, Colour colour, int x, int y, Chessboard* chessboard) : type(type), colour(colour), x(x), y(y), get_moves_func(GET_MOVES_FUNCTIONS[type]), chessboard(chessboard) {
     image = IMAGES[type][colour].get();
 }
 
@@ -48,6 +48,10 @@ void Piece::update_moves() {
 
 std::vector<Piece::Move>* Piece::get_moves() {
     return moves;
+}
+
+Chessboard *Piece::get_chessboard() {
+    return chessboard;
 }
 
 void Piece::init_piece_type(Type type, int tex_pos) {
