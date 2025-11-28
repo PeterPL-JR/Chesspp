@@ -2,6 +2,7 @@
 #define CHESSPP_MOVE_H
 
 #include "Piece.h"
+#include "../Chessboard.h"
 
 #define PIECE_MOVE(name) std::vector<Piece::Move>* (name)(Piece* piece)
 

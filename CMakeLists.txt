@@ -26,6 +26,13 @@ add_executable(Chesspp main.cpp
         chess/piece/Move.h
         graphics/drawable/Drawable.h
         graphics/Render.cpp
-        graphics/Render.h)
+        graphics/Render.h
+        chess/piece/type/Pawn.cpp
+        chess/piece/type/Knight.cpp
+        chess/piece/type/Bishop.cpp
+        chess/piece/type/Rook.cpp
+        chess/piece/type/Queen.cpp
+        chess/piece/type/King.cpp
+)
 
 target_link_libraries(Chesspp sfml-system sfml-window sfml-graphics sfml-audio sfml-network)
