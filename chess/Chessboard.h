@@ -25,6 +25,8 @@ public:
     void remove_piece(Piece* piece);
 
     bool is_field_taken(int x, int y);
+
+    bool is_valid_field(int x, int y);
 private:
     Piece* board[SIZE][SIZE] = {};
     std::vector<Piece*> pieces;
@@ -44,8 +46,6 @@ private:
     void add_new_piece(Piece::Type type, Piece::Colour colour, int x, int y);
 
     void try_move_piece(Piece* piece, int x, int y);
-
-    bool is_field_valid(int x, int y);
 };
 
 #endif

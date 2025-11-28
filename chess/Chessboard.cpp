@@ -80,7 +80,7 @@ void Chessboard::click(int x, int y) {
 }
 
 Piece* Chessboard::get_piece(int x, int y) {
-    if (!is_field_valid(x, y)) return nullptr;
+    if (!is_valid_field(x, y)) return nullptr;
     return board[x][y];
 }
 
@@ -97,7 +97,7 @@ void Chessboard::move_piece(Piece *piece, int x, int y) {
     int old_x = piece->get_x();
     int old_y = piece->get_y();
 
-    if (!is_field_valid(x, y)) return;
+    if (!is_valid_field(x, y)) return;
 
     if (is_field_taken(x, y)) {
         remove_piece(get_piece(x, y));
@@ -122,8 +122,12 @@ bool Chessboard::is_field_taken(int x, int y) {
     return board[x][y] != nullptr;
 }
 
+bool Chessboard::is_valid_field(int x, int y) {
+    return x >= 0 && y >= 0 && x < SIZE && y < SIZE;
+}
+
 void Chessboard::set_piece(int x, int y, Piece *piece) {
-    if (!is_field_valid(x, y)) return;
+    if (!is_valid_field(x, y)) return;
     board[x][y] = piece;
 }
 
@@ -158,8 +162,4 @@ void Chessboard::try_move_piece(Piece *piece, int x, int y) {
             return;
         }
     }
-}
-
-bool Chessboard::is_field_valid(int x, int y) {
-    return x >= 0 && y >= 0 && x < SIZE && y < SIZE;
 }
