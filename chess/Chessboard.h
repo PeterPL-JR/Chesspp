@@ -17,6 +17,9 @@ public:
     static Circle MOVE_CIRCLE;
     static Circle CAPTURE_CIRCLE;
 
+    static Box MOVE_BOX;
+    static Box MOVE_OLD_POS_BOX;
+
     static constexpr int SIZE = 8;
 
     Chessboard();
@@ -40,6 +43,9 @@ private:
     Piece::Colour turn = Piece::LIGHT;
 
     Piece* clicked_piece = nullptr;
+
+    Field::Pos* last_move_new_pos = nullptr;
+    Field::Pos* last_move_old_pos = nullptr;
 
     void set_piece(int x, int y, Piece* piece);
 

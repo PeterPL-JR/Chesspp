@@ -9,6 +9,9 @@ Box Chessboard::CLICK_BOX(0xFFABA888, 0xFF737362);
 Circle Chessboard::MOVE_CIRCLE(0x36000000, 0, 0.45, 0);
 Circle Chessboard::CAPTURE_CIRCLE(0, 0x36000000, 0.85, 0.15);
 
+Box Chessboard::MOVE_BOX(0xFFFFCF50, 0xFFCB9925);
+Box Chessboard::MOVE_OLD_POS_BOX(Colour::Transparent, 0xFFCB9925);
+
 const Piece::Type PIECES_ORDER[8] = {
     Piece::ROOK,
     Piece::KNIGHT,
@@ -34,6 +37,18 @@ void Chessboard::draw(int x, int y, Window* window) {
             Field field = (i + j) % 2 == 0 ? LIGHT_FIELD : DARK_FIELD;
             field.draw(xx, yy, window);
         }
+    }
+
+    if (last_move_new_pos != nullptr) {
+        float xx = x + last_move_new_pos->x * Field::size;
+        float yy = y + last_move_new_pos->y * Field::size;
+        MOVE_BOX.draw(xx, yy, window);
+    }
+
+    if (last_move_old_pos != nullptr) {
+        float xx = x + last_move_old_pos->x * Field::size;
+        float yy = y + last_move_old_pos->y * Field::size;
+        MOVE_OLD_POS_BOX.draw(xx, yy, window);
     }
 
     if (clicked_piece != nullptr) {
@@ -106,6 +121,9 @@ void Chessboard::move_piece(Piece *piece, int x, int y) {
     board[x][y] = piece;
 
     piece->move(x, y);
+
+    last_move_new_pos = new Field::Pos{x, y};
+    last_move_old_pos = new Field::Pos{old_x, old_y};
 }
 
 void Chessboard::remove_piece(Piece *piece) {
