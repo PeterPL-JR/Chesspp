@@ -64,7 +64,7 @@ void Chessboard::click(int x, int y) {
 
     Piece* piece = get_piece(field_xi, field_yi);
 
-    if (piece == nullptr && clicked_piece != nullptr) {
+    if (clicked_piece != nullptr && (piece == nullptr || piece->colour != clicked_piece->colour)) {
         try_move_piece(clicked_piece, field_xi, field_yi);
         return;
     }
@@ -97,7 +97,11 @@ void Chessboard::move_piece(Piece *piece, int x, int y) {
     int old_x = piece->get_x();
     int old_y = piece->get_y();
 
-    if (!is_field_valid(x, y) || is_field_taken(x, y)) return;
+    if (!is_field_valid(x, y)) return;
+
+    if (is_field_taken(x, y)) {
+        remove_piece(get_piece(x, y));
+    }
 
     board[old_x][old_y] = nullptr;
     board[x][y] = piece;
