@@ -7,6 +7,10 @@
 
 class Field {
 public:
+    struct Pos {
+        const int x, y;
+    };
+
     const sf::Color main_colour, border_colour;
 
     static float size;

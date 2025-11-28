@@ -4,6 +4,8 @@
 #include <map>
 #include <memory>
 
+#include "Field.h"
+
 class Chessboard;
 
 #include "../graphics/Image.h"
@@ -16,8 +18,7 @@ public:
     enum Colour {
         LIGHT, DARK
     };
-    struct Move {
-        const int x, y;
+    struct Move : Field::Pos {
     };
 
     const Type type;
