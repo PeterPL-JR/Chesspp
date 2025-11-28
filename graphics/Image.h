@@ -3,9 +3,10 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "Drawable.h"
 #include "Window.h"
 
-class Image : public sf::Sprite {
+class Image : public sf::Sprite, public Drawable {
 public:
     Image(sf::Texture* texture);
     Image(sf::Texture* texture, int tex_x, int tex_y, int tex_width, int tex_height, int width, int height);

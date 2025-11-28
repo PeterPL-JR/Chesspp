@@ -3,9 +3,10 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "Drawable.h"
 #include "Window.h"
 
-class Box {
+class Box : public Drawable {
 public:
     Box(int main_colour, int border_colour);
 

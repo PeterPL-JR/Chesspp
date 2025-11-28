@@ -23,6 +23,7 @@ add_executable(Chesspp main.cpp
         graphics/Circle.cpp
         graphics/Circle.h
         chess/Move.cpp
-        chess/Move.h)
+        chess/Move.h
+        graphics/Drawable.h)
 
 target_link_libraries(Chesspp sfml-system sfml-window sfml-graphics sfml-audio sfml-network)

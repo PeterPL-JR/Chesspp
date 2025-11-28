@@ -3,9 +3,10 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "Drawable.h"
 #include "Window.h"
 
-class Circle {
+class Circle : public Drawable {
 public:
     Circle(int main_colour, int border_colour, float radius_multiplier, float border_size_multiplier);
 
