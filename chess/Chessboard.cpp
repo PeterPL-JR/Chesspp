@@ -1,16 +1,6 @@
 #include "Chessboard.h"
 #include "../graphics/Colour.h"
-
-Field Chessboard::LIGHT_FIELD(0xFFE3C387, 0xFFA0895E);
-Field Chessboard::DARK_FIELD(0xFF653318, 0xFF351C0E);
-
-Box Chessboard::CLICK_BOX(0xFFABA888, 0xFF737362);
-
-Circle Chessboard::MOVE_CIRCLE(0x36000000, 0, 0.45, 0);
-Circle Chessboard::CAPTURE_CIRCLE(0, 0x36000000, 0.85, 0.15);
-
-Box Chessboard::MOVE_BOX(0xFFFFCF50, 0xFFCB9925);
-Box Chessboard::MOVE_OLD_POS_BOX(Colour::Transparent, 0xFFCB9925);
+#include "../graphics/Render.h"
 
 const Piece::Type PIECES_ORDER[8] = {
     Piece::ROOK,
@@ -40,15 +30,11 @@ void Chessboard::draw(int x, int y, Window* window) {
     }
 
     if (last_move_new_pos != nullptr) {
-        float xx = x + last_move_new_pos->x * Field::size;
-        float yy = y + last_move_new_pos->y * Field::size;
-        MOVE_BOX.draw(xx, yy, window);
+        draw_on_chessboard(&MOVE_BOX, x, y, last_move_new_pos->x, last_move_new_pos->y, window);
     }
 
     if (last_move_old_pos != nullptr) {
-        float xx = x + last_move_old_pos->x * Field::size;
-        float yy = y + last_move_old_pos->y * Field::size;
-        MOVE_OLD_POS_BOX.draw(xx, yy, window);
+        draw_on_chessboard(&MOVE_OLD_POS_BOX, x, y, last_move_old_pos->x, last_move_old_pos->y, window);
     }
 
     if (clicked_piece != nullptr) {
@@ -56,17 +42,13 @@ void Chessboard::draw(int x, int y, Window* window) {
         for (Piece::Move move : *moves) {
             Piece* piece = get_piece(move.x, move.y);
             Circle circle = (piece == nullptr) ? MOVE_CIRCLE : CAPTURE_CIRCLE;
-            float xx = move.x * Field::size + x;
-            float yy = move.y * Field::size + y;
-            circle.draw(xx, yy, window);
+            draw_on_chessboard(&circle, x, y, move.x, move.y, window);
         }
     }
 
     for (Piece* piece : pieces) {
         if (clicked_piece == piece) {
-            int xx = x + piece->get_x() * Field::size;
-            int yy = y + piece->get_y() * Field::size;
-            CLICK_BOX.draw(xx, yy, window);
+            draw_on_chessboard(&CLICK_BOX, x, y, piece->get_x(), piece->get_y(), window);
         }
         draw_piece(*piece, x, y, window);
     }
@@ -139,12 +121,6 @@ bool Chessboard::is_field_taken(int x, int y) {
 void Chessboard::set_piece(int x, int y, Piece *piece) {
     if (!is_field_valid(x, y)) return;
     board[x][y] = piece;
-}
-
-void Chessboard::draw_piece(Piece& piece, int x_offset, int y_offset, Window* window) {
-    int x = piece.get_x() * Field::size + x_offset;
-    int y = piece.get_y() * Field::size + y_offset;
-    Piece::draw(piece.type, piece.colour, x, y, window);
 }
 
 void Chessboard::init_pieces(Piece::Colour colour, int pieces_y, int pawns_y) {

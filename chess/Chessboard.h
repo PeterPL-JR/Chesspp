@@ -5,21 +5,9 @@
 #include "Piece.h"
 
 #include "../graphics/Box.h"
-#include "../graphics/Circle.h"
 
 class Chessboard {
 public:
-    static Field LIGHT_FIELD;
-    static Field DARK_FIELD;
-
-    static Box CLICK_BOX;
-
-    static Circle MOVE_CIRCLE;
-    static Circle CAPTURE_CIRCLE;
-
-    static Box MOVE_BOX;
-    static Box MOVE_OLD_POS_BOX;
-
     static constexpr int SIZE = 8;
 
     Chessboard();
@@ -48,8 +36,6 @@ private:
     Field::Pos* last_move_old_pos = nullptr;
 
     void set_piece(int x, int y, Piece* piece);
-
-    void draw_piece(Piece& piece, int x_offset, int y_offset, Window* window);
 
     void init_pieces(Piece::Colour colour, int pieces_y, int pawns_y);
 
