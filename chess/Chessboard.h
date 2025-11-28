@@ -2,9 +2,9 @@
 #define CHESSPP_CHESSBOARD_H
 
 #include "Field.h"
-#include "Piece.h"
+#include "piece/Piece.h"
 
-#include "../graphics/Box.h"
+#include "../graphics/drawable/geometry/Box.h"
 
 class Chessboard {
 public:

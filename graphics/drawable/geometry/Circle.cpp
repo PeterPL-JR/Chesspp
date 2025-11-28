@@ -1,7 +1,7 @@
 #include "Circle.h"
 
-#include "Colour.h"
-#include "../chess/Field.h"
+#include "../../Colour.h"
+#include "../../../chess/Field.h"
 
 Circle::Circle(int main_colour, int border_colour, float radius_multiplier, float border_size_multiplier) {
     circle = sf::CircleShape();

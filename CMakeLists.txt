@@ -12,19 +12,19 @@ add_executable(Chesspp main.cpp
         chess/Field.h
         chess/Chessboard.cpp
         chess/Chessboard.h
-        chess/Piece.cpp
-        chess/Piece.h
-        graphics/Image.cpp
-        graphics/Image.h
+        chess/piece/Piece.cpp
+        chess/piece/Piece.h
+        graphics/drawable/Image.cpp
+        graphics/drawable/Image.h
         graphics/Colour.h
         graphics/Colour.cpp
-        graphics/Box.cpp
-        graphics/Box.h
-        graphics/Circle.cpp
-        graphics/Circle.h
-        chess/Move.cpp
-        chess/Move.h
-        graphics/Drawable.h
+        graphics/drawable/geometry/Box.cpp
+        graphics/drawable/geometry/Box.h
+        graphics/drawable/geometry/Circle.cpp
+        graphics/drawable/geometry/Circle.h
+        chess/piece/Move.cpp
+        chess/piece/Move.h
+        graphics/drawable/Drawable.h
         graphics/Render.cpp
         graphics/Render.h)
 

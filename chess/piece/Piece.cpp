@@ -1,5 +1,5 @@
 #include "Piece.h"
-#include "Field.h"
+#include "../Field.h"
 
 #include "Move.h"
 

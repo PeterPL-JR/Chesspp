@@ -1,6 +1,6 @@
 #include "Move.h"
 
-#include "Chessboard.h"
+#include "../Chessboard.h"
 
 PIECE_MOVE(pawn_move) {
     int x = piece->get_x();

@@ -4,11 +4,11 @@
 #include <map>
 #include <memory>
 
-#include "Field.h"
+#include "../Field.h"
 
 class Chessboard;
 
-#include "../graphics/Image.h"
+#include "../../graphics/drawable/Image.h"
 
 class Piece {
 public:

@@ -1,9 +1,9 @@
 #ifndef CHESSPP_RENDER_H
 #define CHESSPP_RENDER_H
 
-#include "Box.h"
-#include "Circle.h"
-#include "../chess/Piece.h"
+#include "drawable/geometry/Box.h"
+#include "drawable/geometry/Circle.h"
+#include "../chess/piece/Piece.h"
 #include "Window.h"
 
 extern Field LIGHT_FIELD;

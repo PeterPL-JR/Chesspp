@@ -1,7 +1,7 @@
 #include "graphics/Window.h"
 
 #include "chess/Chessboard.h"
-#include "chess/Piece.h"
+#include "chess/piece/Piece.h"
 
 Chessboard* chessboard;
 Window* window;

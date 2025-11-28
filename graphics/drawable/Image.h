@@ -4,7 +4,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "Drawable.h"
-#include "Window.h"
+#include "../Window.h"
 
 class Image : public sf::Sprite, public Drawable {
 public:

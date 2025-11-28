@@ -1,7 +1,7 @@
 #include "Box.h"
 
-#include "Colour.h"
-#include "../chess/Field.h"
+#include "../../Colour.h"
+#include "../../../chess/Field.h"
 
 Box::Box(int main_colour, int border_colour) {
     rect = sf::RectangleShape();

@@ -3,8 +3,8 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "Drawable.h"
-#include "Window.h"
+#include "../Drawable.h"
+#include "../../Window.h"
 
 class Circle : public Drawable {
 public:

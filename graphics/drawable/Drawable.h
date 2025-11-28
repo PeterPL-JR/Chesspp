@@ -1,7 +1,7 @@
 #ifndef CHESSPP_DRAWABLE_H
 #define CHESSPP_DRAWABLE_H
 
-#include "Window.h"
+#include "../Window.h"
 
 class Drawable {
 public:
