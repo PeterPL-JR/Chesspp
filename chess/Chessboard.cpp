@@ -37,6 +37,11 @@ void Chessboard::draw(int x, int y, Window* window) {
         draw_on_chessboard(&MOVE_OLD_POS_BOX, x, y, last_move_old_pos->x, last_move_old_pos->y, window);
     }
 
+    if (is_check) {
+        Piece* king = get_king(turn);
+        draw_on_chessboard(&KING_CHECK_BOX, x, y, king->get_x(), king->get_y(), window);
+    }
+
     if (clicked_piece != nullptr) {
         std::vector<Piece::Move>* moves = clicked_piece->get_moves();
         for (Piece::Move move : *moves) {
@@ -84,13 +89,18 @@ Piece* Chessboard::get_piece(int x, int y) {
     return board[x][y];
 }
 
+std::vector<Piece*>& Chessboard::get_pieces() {
+    return pieces;
+}
+
 Piece::Colour Chessboard::get_turn() {
     return turn;
 }
 
 void Chessboard::change_turn() {
-    turn = turn == Piece::LIGHT ? Piece::DARK : Piece::LIGHT;
+    turn = Piece::get_opposite_colour(turn);
     update_pieces();
+    check_king_check();
 }
 
 void Chessboard::move_piece(Piece *piece, int x, int y) {
@@ -147,9 +157,7 @@ void Chessboard::init_pieces(Piece::Colour colour, int pieces_y, int pawns_y) {
 
 void Chessboard::update_pieces() {
     for (Piece* piece : pieces) {
-        if (piece->colour == turn) {
-            piece->update_moves();
-        }
+        piece->update_moves();
     }
 }
 
@@ -167,5 +175,21 @@ void Chessboard::try_move_piece(Piece *piece, int x, int y) {
             change_turn();
             return;
         }
+    }
+}
+
+Piece* Chessboard::get_king(Piece::Colour colour) {
+    for (Piece* piece : pieces) {
+        if (piece->colour == colour && piece->type == Piece::KING) {
+            return piece;
+        }
+    }
+    return nullptr;
+}
+
+void Chessboard::check_king_check() {
+    Piece* king = get_king(turn);
+    if (king != nullptr) {
+        is_check = king->is_attacked();
     }
 }

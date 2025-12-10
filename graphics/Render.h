@@ -10,6 +10,7 @@ extern Field LIGHT_FIELD;
 extern Field DARK_FIELD;
 
 extern Box CLICK_BOX;
+extern Box KING_CHECK_BOX;
 
 extern Circle MOVE_CIRCLE;
 extern Circle CAPTURE_CIRCLE;

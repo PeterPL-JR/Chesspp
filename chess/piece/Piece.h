@@ -45,6 +45,10 @@ public:
     bool is_moved();
 
     Chessboard* get_chessboard();
+
+    bool is_attacked();
+
+    static Colour get_opposite_colour(Colour colour);
 private:
     int x, y;
     Image* image;

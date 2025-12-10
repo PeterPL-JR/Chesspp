@@ -17,6 +17,7 @@ public:
     void click(int x, int y);
 
     Piece* get_piece(int x, int y);
+    std::vector<Piece*>& get_pieces();
 
     Piece::Colour get_turn();
     void change_turn();
@@ -31,6 +32,7 @@ private:
     Piece* board[SIZE][SIZE] = {};
     std::vector<Piece*> pieces;
     Piece::Colour turn = Piece::LIGHT;
+    bool is_check = false;
 
     Piece* clicked_piece = nullptr;
 
@@ -46,6 +48,10 @@ private:
     void add_new_piece(Piece::Type type, Piece::Colour colour, int x, int y);
 
     void try_move_piece(Piece* piece, int x, int y);
+
+    Piece* get_king(Piece::Colour colour);
+
+    void check_king_check();
 };
 
 #endif

@@ -19,6 +19,7 @@ constexpr int IMG_PIECE_SIZE = 16;
 
 Piece::Piece(Type type, Colour colour, int x, int y, Chessboard* chessboard) : type(type), colour(colour), x(x), y(y), get_moves_func(GET_MOVES_FUNCTIONS[type]), chessboard(chessboard) {
     image = IMAGES[type][colour].get();
+    moves = new std::vector<Move>;
 }
 
 void Piece::init() {
@@ -62,6 +63,23 @@ bool Piece::is_moved() {
 
 Chessboard *Piece::get_chessboard() {
     return chessboard;
+}
+
+bool Piece::is_attacked() {
+    for (Piece* piece : chessboard->get_pieces()) {
+        if (piece->colour != colour && piece != this) {
+            for (Move move : *(piece->moves)) {
+                if (move.x == x && move.y == y) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+Piece::Colour Piece::get_opposite_colour(Colour colour) {
+    return colour == LIGHT ? DARK : LIGHT;
 }
 
 void Piece::init_piece_type(Type type, int tex_pos) {
