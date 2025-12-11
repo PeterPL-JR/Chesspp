@@ -20,8 +20,23 @@ void draw_on_chessboard(Drawable* drawable, int x_offset, int y_offset, int x, i
     drawable->draw(xx, yy, window);
 }
 
-void draw_piece(Piece& piece, int x_offset, int y_offset, Window* window) {
-    float x = piece.get_x() * Field::size + x_offset;
-    float y = piece.get_y() * Field::size + y_offset;
-    Piece::draw(piece.type, piece.colour, x, y, window);
+void draw_piece(Piece* piece, int x_offset, int y_offset, Window* window) {
+    float x = piece->get_x() * Field::size + x_offset;
+    float y = piece->get_y() * Field::size + y_offset;
+    Piece::draw(piece->type, piece->colour, x, y, window);
 }
+
+void draw_move(Piece::Move move, int x, int y, Chessboard* chessboard, Window* window) {
+    Piece* piece = chessboard->get_piece(move.x, move.y);
+    Circle circle = (piece == nullptr) ? MOVE_CIRCLE : CAPTURE_CIRCLE;
+    draw_on_chessboard(&circle, x, y, move.x, move.y, window);
+}
+
+void draw_clicked_piece(Piece *clicked_piece, int x, int y, Chessboard* chessboard, Window *window) {
+    std::vector<Piece::Move>* moves = clicked_piece->get_moves();
+    for (Piece::Move move : *moves) {
+        draw_move(move, x, y, chessboard, window);
+    }
+    draw_on_chessboard(&CLICK_BOX, x, y, clicked_piece->get_x(), clicked_piece->get_y(), window);
+}
+

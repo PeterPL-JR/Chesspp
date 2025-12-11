@@ -43,19 +43,11 @@ void Chessboard::draw(int x, int y, Window* window) {
     }
 
     if (clicked_piece != nullptr) {
-        std::vector<Piece::Move>* moves = clicked_piece->get_moves();
-        for (Piece::Move move : *moves) {
-            Piece* piece = get_piece(move.x, move.y);
-            Circle circle = (piece == nullptr) ? MOVE_CIRCLE : CAPTURE_CIRCLE;
-            draw_on_chessboard(&circle, x, y, move.x, move.y, window);
-        }
+        draw_clicked_piece(clicked_piece, x, y, this, window);
     }
 
     for (Piece* piece : pieces) {
-        if (clicked_piece == piece) {
-            draw_on_chessboard(&CLICK_BOX, x, y, piece->get_x(), piece->get_y(), window);
-        }
-        draw_piece(*piece, x, y, window);
+        draw_piece(piece, x, y, window);
     }
 }
 

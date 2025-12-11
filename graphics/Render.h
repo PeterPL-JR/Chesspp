@@ -5,6 +5,7 @@
 #include "drawable/geometry/Circle.h"
 #include "../chess/piece/Piece.h"
 #include "Window.h"
+#include "../chess/Chessboard.h"
 
 extern Field LIGHT_FIELD;
 extern Field DARK_FIELD;
@@ -20,6 +21,10 @@ extern Box MOVE_OLD_POS_BOX;
 
 void draw_on_chessboard(Drawable* drawable, int x_offset, int y_offset, int x, int y, Window* window);
 
-void draw_piece(Piece& piece, int x_offset, int y_offset, Window* window);
+void draw_piece(Piece* piece, int x_offset, int y_offset, Window* window);
+
+void draw_move(Piece::Move move, int x, int y, Chessboard* chessboard, Window* window);
+
+void draw_clicked_piece(Piece* clicked_piece, int x, int y, Chessboard* chessboard, Window* window);
 
 #endif
