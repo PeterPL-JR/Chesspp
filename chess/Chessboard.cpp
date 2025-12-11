@@ -110,7 +110,7 @@ void Chessboard::move_piece(Piece *piece, int x, int y) {
 
     piece->move(x, y);
 
-    if (piece->type == Piece::PAWN && y == 0 || y == SIZE - 1) {
+    if (piece->type == Piece::PAWN && (y == 0 || y == SIZE - 1)) {
         Piece::Colour colour = piece->colour;
         remove_piece(piece);
         add_new_piece(Piece::QUEEN, colour, x, y);
