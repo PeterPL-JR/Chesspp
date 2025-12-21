@@ -43,7 +43,7 @@ void Chessboard::draw(int x, int y, Window* window) {
     }
 
     if (clicked_piece != nullptr) {
-        draw_clicked_piece(clicked_piece, x, y, this, window);
+        draw_clicked_piece(clicked_piece, x, y, window);
     }
 
     for (Piece* piece : pieces) {

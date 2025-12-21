@@ -23,8 +23,8 @@ void draw_on_chessboard(Drawable* drawable, int x_offset, int y_offset, int x, i
 
 void draw_piece(Piece* piece, int x_offset, int y_offset, Window* window);
 
-void draw_move(Piece::Move move, int x, int y, Chessboard* chessboard, Window* window);
+void draw_move(Piece::Move move, int x, int y, Window* window);
 
-void draw_clicked_piece(Piece* clicked_piece, int x, int y, Chessboard* chessboard, Window* window);
+void draw_clicked_piece(Piece* clicked_piece, int x, int y, Window* window);
 
 #endif
