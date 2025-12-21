@@ -95,9 +95,12 @@ void Chessboard::change_turn() {
     check_king_check();
 }
 
-void Chessboard::move_piece(Piece *piece, int x, int y) {
-    int old_x = piece->get_x();
-    int old_y = piece->get_y();
+void Chessboard::move_piece(Piece *piece, Piece::Move move) {
+    int x = move.x;
+    int y = move.y;
+
+    int old_x = move.old_x;
+    int old_y = move.old_y;
 
     if (!is_valid_field(x, y)) return;
 
@@ -109,6 +112,7 @@ void Chessboard::move_piece(Piece *piece, int x, int y) {
     board[x][y] = piece;
 
     piece->move(x, y);
+    moves.push_back(move);
 
     if (piece->type == Piece::PAWN && (y == 0 || y == SIZE - 1)) {
         Piece::Colour colour = piece->colour;
@@ -162,7 +166,7 @@ void Chessboard::add_new_piece(Piece::Type type, Piece::Colour colour, int x, in
 void Chessboard::try_move_piece(Piece *piece, int x, int y) {
     for (Piece::Move move : *(piece->get_moves())) {
         if (move.x == x && move.y == y) {
-            move_piece(piece, x, y);
+            move_piece(piece, move);
             clicked_piece = nullptr;
             change_turn();
             return;

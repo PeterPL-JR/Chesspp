@@ -22,7 +22,7 @@ public:
     Piece::Colour get_turn();
     void change_turn();
 
-    void move_piece(Piece* piece, int x, int y);
+    void move_piece(Piece* piece, Piece::Move move);
     void remove_piece(Piece* piece);
 
     bool is_field_taken(int x, int y);
@@ -33,6 +33,7 @@ private:
     std::vector<Piece*> pieces;
     Piece::Colour turn = Piece::LIGHT;
     bool is_check = false;
+    std::vector<Piece::Move> moves;
 
     Piece* clicked_piece = nullptr;
 

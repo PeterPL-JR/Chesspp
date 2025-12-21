@@ -20,8 +20,8 @@ PIECE_MOVE(pawn_move) {
     Piece* piece_to_capture1 = chessboard->get_piece(capture1_x, capture1_y);
     Piece* piece_to_capture2 = chessboard->get_piece(capture2_x, capture2_y);
 
-    Piece::Move capture1 = {move_x - 1, move_y, x, y, piece_to_capture1};
-    Piece::Move capture2 = {move_x + 1, move_y, x, y, piece_to_capture2};
+    Piece::Move capture1 = {move_x - 1, move_y, x, y, piece, piece_to_capture1};
+    Piece::Move capture2 = {move_x + 1, move_y, x, y, piece, piece_to_capture2};
 
     if (piece_to_capture1 != nullptr && piece_to_capture1->colour != piece->colour) arr->push_back(capture1);
     if (piece_to_capture2 != nullptr && piece_to_capture2->colour != piece->colour) arr->push_back(capture2);

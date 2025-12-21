@@ -20,6 +20,7 @@ public:
     };
     struct Move : Field::Pos {
         const int old_x, old_y;
+        const Piece* piece;
         const Piece* captured_piece;
     };
 
