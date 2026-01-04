@@ -30,14 +30,14 @@ PIECE_MOVE(pawn_move) {
         return arr;
     }
 
-    arr->push_back({x, y + offset, x, y});
+    arr->push_back({x, y + offset, x, y, piece});
     if (!piece->is_moved()) {
         move_x = x;
         move_y = y + offset * 2;
         if (chessboard->is_field_taken(move_x, move_y)) {
             return arr;
         }
-        arr->push_back({move_x, move_y, x, y});
+        arr->push_back({move_x, move_y, x, y, piece});
     }
     return arr;
 }
