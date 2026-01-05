@@ -105,8 +105,9 @@ void Chessboard::do_move(Piece::Move move) {
 
     if (!is_valid_field(x, y)) return;
 
-    if (is_field_taken(x, y)) {
-        remove_piece(get_piece(x, y));
+    Piece* to_capture = move.captured_piece;
+    if (to_capture != nullptr) {
+        remove_piece(to_capture);
     }
 
     set_piece(x, y, piece);
@@ -153,6 +154,11 @@ bool Chessboard::is_field_attacked(int x, int y, Piece::Colour attacked_by_colou
 
 bool Chessboard::is_valid_field(int x, int y) {
     return x >= 0 && y >= 0 && x < SIZE && y < SIZE;
+}
+
+Piece::Move* Chessboard::get_last_move() {
+    if (moves.empty()) return nullptr;
+    return &moves[moves.size() - 1];
 }
 
 void Chessboard::set_piece(int x, int y, Piece *piece) {
@@ -262,7 +268,10 @@ bool Chessboard::is_move_valid(Piece::Move move) {
 
     set_piece(old_x, old_y, piece);
     if (captured_piece != nullptr) {
-        board[x][y] = captured_piece;
+        int captured_piece_x = captured_piece->get_x();
+        int captured_piece_y = captured_piece->get_y();
+
+        board[captured_piece_x][captured_piece_y] = captured_piece;
         add_piece_to_list(captured_piece);
     }
     create_buffer_moves();

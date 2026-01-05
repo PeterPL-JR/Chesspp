@@ -30,6 +30,8 @@ public:
     bool is_field_attacked(int x, int y, Piece::Colour attacked_by_colour);
 
     bool is_valid_field(int x, int y);
+
+    Piece::Move* get_last_move();
 private:
     Piece* board[SIZE][SIZE] = {};
     std::vector<Piece*> pieces;
