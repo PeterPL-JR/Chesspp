@@ -74,16 +74,7 @@ Chessboard *Piece::get_chessboard() {
 }
 
 bool Piece::is_attacked() {
-    for (Piece* piece : chessboard->get_pieces()) {
-        if (piece->colour != colour && piece != this) {
-            for (Move move : *(piece->moves)) {
-                if (move.x == x && move.y == y) {
-                    return true;
-                }
-            }
-        }
-    }
-    return false;
+    return get_chessboard()->is_field_attacked(x, y, get_opposite_colour(colour));
 }
 
 Piece::Colour Piece::get_opposite_colour(Colour colour) {

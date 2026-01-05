@@ -120,6 +120,10 @@ void Chessboard::do_move(Piece::Move move) {
         add_new_piece(Piece::QUEEN, colour, x, y);
     }
 
+    if (is_castling(piece, x, old_x)) {
+        do_castling(x, y, old_x);
+    }
+
     last_move_new_pos = new Field::Pos{x, y};
     last_move_old_pos = new Field::Pos{old_x, old_y};
 }
@@ -132,6 +136,19 @@ void Chessboard::remove_piece(Piece *piece) {
 
 bool Chessboard::is_field_taken(int x, int y) {
     return board[x][y] != nullptr;
+}
+
+bool Chessboard::is_field_attacked(int x, int y, Piece::Colour attacked_by_colour) {
+    for (Piece* piece : pieces) {
+        if (piece->colour == attacked_by_colour) {
+            for (Piece::Move move : *piece->get_moves()) {
+                if (move.x == x && move.y == y) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
 }
 
 bool Chessboard::is_valid_field(int x, int y) {
@@ -255,4 +272,23 @@ bool Chessboard::is_move_valid(Piece::Move move) {
 
 bool Chessboard::is_pawn_promotion(Piece *piece, int y) {
     return piece->type == Piece::PAWN && (y == 0 || y == SIZE - 1);
+}
+
+void Chessboard::do_castling(int x, int y, int old_x) {
+    int rook_x, rook_new_x;
+    if (x - old_x > 0) {
+        rook_x = SIZE - 1;
+        rook_new_x = x - 1;
+    } else {
+        rook_x = 0;
+        rook_new_x = x + 1;
+    }
+
+    Piece* rook = get_piece(rook_x, y);
+    set_piece(rook_new_x, y, rook);
+    rook->move(rook_new_x, y);
+}
+
+bool Chessboard::is_castling(Piece *piece, int new_x, int old_x) {
+    return piece->type == Piece::KING && abs(new_x - old_x) == 2;
 }

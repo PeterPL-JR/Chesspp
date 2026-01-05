@@ -27,6 +27,8 @@ public:
 
     bool is_field_taken(int x, int y);
 
+    bool is_field_attacked(int x, int y, Piece::Colour attacked_by_colour);
+
     bool is_valid_field(int x, int y);
 private:
     Piece* board[SIZE][SIZE] = {};
@@ -63,6 +65,9 @@ private:
     bool is_move_valid(Piece::Move move);
 
     bool is_pawn_promotion(Piece* piece, int y);
+
+    void do_castling(int x, int y, int old_x);
+    bool is_castling(Piece* piece, int new_x, int old_x);
 };
 
 #endif
