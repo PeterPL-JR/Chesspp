@@ -91,7 +91,7 @@ Piece::Colour Chessboard::get_turn() {
 
 void Chessboard::change_turn() {
     turn = Piece::get_opposite_colour(turn);
-    update_pieces();
+    create_moves();
     check_king_check();
 }
 
@@ -150,12 +150,35 @@ void Chessboard::init_pieces(Piece::Colour colour, int pieces_y, int pawns_y) {
         add_new_piece(PIECES_ORDER[i], colour, i, pieces_y);
         add_new_piece(Piece::PAWN, colour, i, pawns_y);
     }
-    update_pieces();
+    create_moves();
 }
 
-void Chessboard::update_pieces() {
+void Chessboard::create_moves() {
+    create_buffer_moves();
+
+    std::vector<Piece*> pieces = this->pieces;
+    std::map<Piece*, std::vector<Piece::Move>*> moves_map;
+
     for (Piece* piece : pieces) {
-        piece->update_moves();
+        std::vector<Piece::Move>* buffer_moves = piece->get_moves();
+        std::vector<Piece::Move>* moves = new std::vector<Piece::Move>;
+
+        for (Piece::Move move : *buffer_moves) {
+            if (is_move_valid(move)) {
+                moves->push_back(move);
+            }
+        }
+        moves_map[piece] = moves;
+    }
+
+    for (Piece* piece : pieces) {
+        piece->set_moves(moves_map[piece]);
+    }
+}
+
+void Chessboard::create_buffer_moves() {
+    for (Piece* piece : pieces) {
+        piece->create_buffer_moves();
     }
 }
 
@@ -202,6 +225,32 @@ void Chessboard::check_king_check() {
     if (king != nullptr) {
         is_check = king->is_attacked();
     }
+}
+
+bool Chessboard::is_move_valid(Piece::Move move) {
+    int x = move.x;
+    int y = move.y;
+    int old_x = move.old_x;
+    int old_y = move.old_y;
+    Piece* piece = move.piece;
+    Piece* captured_piece = move.captured_piece;
+
+    set_piece(x, y, piece);
+    if (captured_piece != nullptr) {
+        remove_piece_from_list(captured_piece);
+    }
+    create_buffer_moves();
+
+    bool is_valid = !get_king(piece->colour)->is_attacked();
+
+    set_piece(old_x, old_y, piece);
+    if (captured_piece != nullptr) {
+        board[x][y] = captured_piece;
+        add_piece_to_list(captured_piece);
+    }
+    create_buffer_moves();
+
+    return is_valid;
 }
 
 bool Chessboard::is_pawn_promotion(Piece *piece, int y) {

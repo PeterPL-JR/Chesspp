@@ -44,7 +44,8 @@ private:
 
     void init_pieces(Piece::Colour colour, int pieces_y, int pawns_y);
 
-    void update_pieces();
+    void create_moves();
+    void create_buffer_moves();
 
     void add_new_piece(Piece::Type type, Piece::Colour colour, int x, int y);
 
@@ -58,6 +59,8 @@ private:
     Piece* get_king(Piece::Colour colour);
 
     void check_king_check();
+
+    bool is_move_valid(Piece::Move move);
 
     bool is_pawn_promotion(Piece* piece, int y);
 };

@@ -53,12 +53,16 @@ void Piece::set_position(int x, int y) {
     this->y = y;
 }
 
-void Piece::update_moves() {
-    moves = get_moves_func(this);
-}
-
 std::vector<Piece::Move>* Piece::get_moves() {
     return moves;
+}
+
+void Piece::set_moves(std::vector<Move> *moves) {
+    this->moves = moves;
+}
+
+void Piece::create_buffer_moves() {
+    moves = get_moves_func(this);
 }
 
 bool Piece::is_moved() {
