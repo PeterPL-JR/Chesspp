@@ -41,6 +41,8 @@ public:
 
     void move(int x, int y);
 
+    void set_position(int x, int y);
+
     void update_moves();
 
     std::vector<Move>* get_moves();

@@ -44,9 +44,13 @@ int Piece::get_y() {
 }
 
 void Piece::move(int x, int y) {
+    set_position(x, y);
+    moved = true;
+}
+
+void Piece::set_position(int x, int y) {
     this->x = x;
     this->y = y;
-    moved = true;
 }
 
 void Piece::update_moves() {

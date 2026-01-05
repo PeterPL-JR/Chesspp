@@ -22,7 +22,7 @@ public:
     Piece::Colour get_turn();
     void change_turn();
 
-    void move_piece(Piece* piece, Piece::Move move);
+    void do_move(Piece::Move move);
     void remove_piece(Piece* piece);
 
     bool is_field_taken(int x, int y);
@@ -48,11 +48,18 @@ private:
 
     void add_new_piece(Piece::Type type, Piece::Colour colour, int x, int y);
 
+    void add_piece_to_list(Piece* piece);
+    void remove_piece_from_list(Piece* piece);
+
+    void clear_field(int x, int y);
+
     void try_move_piece(Piece* piece, int x, int y);
 
     Piece* get_king(Piece::Colour colour);
 
     void check_king_check();
+
+    bool is_pawn_promotion(Piece* piece, int y);
 };
 
 #endif

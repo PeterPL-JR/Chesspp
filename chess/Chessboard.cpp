@@ -95,7 +95,8 @@ void Chessboard::change_turn() {
     check_king_check();
 }
 
-void Chessboard::move_piece(Piece *piece, Piece::Move move) {
+void Chessboard::do_move(Piece::Move move) {
+    Piece* piece = move.piece;
     int x = move.x;
     int y = move.y;
 
@@ -108,13 +109,12 @@ void Chessboard::move_piece(Piece *piece, Piece::Move move) {
         remove_piece(get_piece(x, y));
     }
 
-    board[old_x][old_y] = nullptr;
-    board[x][y] = piece;
+    set_piece(x, y, piece);
 
     piece->move(x, y);
     moves.push_back(move);
 
-    if (piece->type == Piece::PAWN && (y == 0 || y == SIZE - 1)) {
+    if (is_pawn_promotion(piece, y)) {
         Piece::Colour colour = piece->colour;
         remove_piece(piece);
         add_new_piece(Piece::QUEEN, colour, x, y);
@@ -125,8 +125,8 @@ void Chessboard::move_piece(Piece *piece, Piece::Move move) {
 }
 
 void Chessboard::remove_piece(Piece *piece) {
-    board[piece->get_x()][piece->get_y()] = nullptr;
-    pieces.erase(std::remove(pieces.begin(), pieces.end(), piece), pieces.end());
+    clear_field(piece->get_x(), piece->get_y());
+    remove_piece_from_list(piece);
     delete piece;
 }
 
@@ -140,7 +140,9 @@ bool Chessboard::is_valid_field(int x, int y) {
 
 void Chessboard::set_piece(int x, int y, Piece *piece) {
     if (!is_valid_field(x, y)) return;
+    clear_field(piece->get_x(), piece->get_y());
     board[x][y] = piece;
+    piece->set_position(x, y);
 }
 
 void Chessboard::init_pieces(Piece::Colour colour, int pieces_y, int pawns_y) {
@@ -159,14 +161,26 @@ void Chessboard::update_pieces() {
 
 void Chessboard::add_new_piece(Piece::Type type, Piece::Colour colour, int x, int y) {
     Piece* piece = new Piece(type, colour, x, y, this);
-    pieces.push_back(piece);
+    add_piece_to_list(piece);
     set_piece(x, y, piece);
+}
+
+void Chessboard::add_piece_to_list(Piece *piece) {
+    pieces.push_back(piece);
+}
+
+void Chessboard::remove_piece_from_list(Piece *piece) {
+    pieces.erase(std::remove(pieces.begin(), pieces.end(), piece), pieces.end());
+}
+
+void Chessboard::clear_field(int x, int y) {
+    board[x][y] = nullptr;
 }
 
 void Chessboard::try_move_piece(Piece *piece, int x, int y) {
     for (Piece::Move move : *(piece->get_moves())) {
         if (move.x == x && move.y == y) {
-            move_piece(piece, move);
+            do_move(move);
             clicked_piece = nullptr;
             change_turn();
             return;
@@ -188,4 +202,8 @@ void Chessboard::check_king_check() {
     if (king != nullptr) {
         is_check = king->is_attacked();
     }
+}
+
+bool Chessboard::is_pawn_promotion(Piece *piece, int y) {
+    return piece->type == Piece::PAWN && (y == 0 || y == SIZE - 1);
 }
