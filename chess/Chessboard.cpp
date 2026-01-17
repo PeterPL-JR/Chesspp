@@ -24,7 +24,7 @@ void Chessboard::draw(int x, int y, Window* window) {
         for (int j = 0; j < SIZE; j++) {
             float yy = y + j * Field::size;
 
-            Field field = (i + j) % 2 == 0 ? LIGHT_FIELD : DARK_FIELD;
+            Field field = get_field_colour(i, j) == Field::LIGHT ? LIGHT_FIELD : DARK_FIELD;
             field.draw(xx, yy, window);
         }
     }
@@ -37,7 +37,7 @@ void Chessboard::draw(int x, int y, Window* window) {
         draw_on_chessboard(&MOVE_OLD_POS_BOX, x, y, last_move_old_pos->x, last_move_old_pos->y, window);
     }
 
-    if (is_check) {
+    if (is_check || is_check_mate) {
         Piece* king = get_king(turn);
         draw_on_chessboard(&KING_CHECK_BOX, x, y, king->get_x(), king->get_y(), window);
     }
@@ -52,7 +52,7 @@ void Chessboard::draw(int x, int y, Window* window) {
 }
 
 void Chessboard::click(int x, int y) {
-    if (!(x >= 0 && y >= 0)) return;
+    if (is_game_end || !(x >= 0 && y >= 0)) return;
 
     int field_xi = x / Field::size;
     int field_yi = y / Field::size;
@@ -92,7 +92,13 @@ Piece::Colour Chessboard::get_turn() {
 void Chessboard::change_turn() {
     turn = Piece::get_opposite_colour(turn);
     create_moves();
-    check_king_check();
+    is_check = false;
+
+    if (check_game_end()) {
+        game_end();
+    } else {
+        check_king_check();
+    }
 }
 
 void Chessboard::do_move(Piece::Move move) {
@@ -168,12 +174,43 @@ void Chessboard::set_piece(int x, int y, Piece *piece) {
     piece->set_position(x, y);
 }
 
+std::vector<Piece*> Chessboard::get_pieces(Piece::Colour colour, Piece::Type type) {
+    std::vector<Piece*> pieces;
+    for (Piece* piece : this->pieces) {
+        if (piece->type == type && piece->colour == colour) {
+            pieces.push_back(piece);
+        }
+    }
+    return pieces;
+}
+
+bool Chessboard::piece_exists(Piece::Colour colour, Piece::Type type) {
+    for (Piece* piece : this->pieces) {
+        if (piece->type == type && piece->colour == colour) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Chessboard::piece_exists(Piece::Type type) {
+    return piece_exists(Piece::LIGHT, type) || piece_exists(Piece::DARK, type);
+}
+
 void Chessboard::init_pieces(Piece::Colour colour, int pieces_y, int pawns_y) {
     for (int i = 0; i < SIZE; i++) {
         add_new_piece(PIECES_ORDER[i], colour, i, pieces_y);
         add_new_piece(Piece::PAWN, colour, i, pawns_y);
     }
     create_moves();
+}
+
+Field::ColourType Chessboard::get_field_colour(int x, int y) {
+    return (x + y) % 2 == 0 ? Field::LIGHT : Field::DARK;
+}
+
+Field::ColourType Chessboard::get_field_colour(Piece *piece) {
+    return get_field_colour(piece->get_x(), piece->get_y());
 }
 
 void Chessboard::create_moves() {
@@ -243,11 +280,12 @@ Piece* Chessboard::get_king(Piece::Colour colour) {
     return nullptr;
 }
 
+bool Chessboard::is_king_attacked(Piece::Colour colour) {
+    return get_king(colour)->is_attacked();
+}
+
 void Chessboard::check_king_check() {
-    Piece* king = get_king(turn);
-    if (king != nullptr) {
-        is_check = king->is_attacked();
-    }
+    is_check = is_king_attacked(turn);
 }
 
 bool Chessboard::is_move_valid(Piece::Move move) {
@@ -300,4 +338,77 @@ void Chessboard::do_castling(int x, int y, int old_x) {
 
 bool Chessboard::is_castling(Piece *piece, int new_x, int old_x) {
     return piece->type == Piece::KING && abs(new_x - old_x) == 2;
+}
+
+bool Chessboard::check_game_end() {
+    if (is_king_check_mate(Piece::LIGHT)) {
+        victory(Piece::LIGHT);
+    } else if (is_king_check_mate(Piece::DARK)) {
+        victory(Piece::DARK);
+    } else if (is_draw()) {
+        draw();
+    } else {
+        return false;
+    }
+    return true;
+}
+
+void Chessboard::game_end() {
+    is_game_end = true;
+}
+
+void Chessboard::victory(Piece::Colour colour) {
+}
+
+void Chessboard::draw() {
+}
+
+bool Chessboard::is_king_check_mate(Piece::Colour winner) {
+    Piece::Colour opponent = Piece::get_opposite_colour(winner);
+    if (is_king_attacked(opponent)) {
+        for (Piece* piece : pieces) {
+            if (piece->colour == opponent && !piece->get_moves()->empty()) {
+                return false;
+            }
+        }
+        is_check_mate = true;
+        return true;
+    }
+    return false;
+}
+
+bool Chessboard::is_draw() {
+    bool light_stalemate = true;
+    bool dark_stalemate = true;
+
+    for (Piece* piece : pieces) {
+        if (!piece->get_moves()->empty()) {
+            if (piece->colour == Piece::LIGHT) {
+                light_stalemate = false;
+            } else {
+                dark_stalemate = false;
+            }
+        }
+    }
+    if (light_stalemate || dark_stalemate) {
+        return true;
+    }
+
+    if (pieces.size() == 2) {
+        return true;
+    }
+    if (pieces.size() == 3 && (piece_exists(Piece::KNIGHT) || piece_exists(Piece::BISHOP))) {
+        return true;
+    }
+    if (pieces.size() == 4) {
+        std::vector<Piece*> light_bishops = get_pieces(Piece::LIGHT, Piece::BISHOP);
+        std::vector<Piece*> dark_bishops = get_pieces(Piece::DARK, Piece::BISHOP);
+
+        if (light_bishops.size() == 1 && dark_bishops.size() == 1) {
+            if (get_field_colour(light_bishops[0]) == get_field_colour(dark_bishops[0])) {
+                return true;
+            }
+        }
+    }
+    return false;
 }

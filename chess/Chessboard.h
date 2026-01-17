@@ -36,7 +36,7 @@ private:
     Piece* board[SIZE][SIZE] = {};
     std::vector<Piece*> pieces;
     Piece::Colour turn = Piece::LIGHT;
-    bool is_check = false;
+    bool is_check = false, is_check_mate = false, is_game_end = false;
     std::vector<Piece::Move> moves;
 
     Piece* clicked_piece = nullptr;
@@ -46,7 +46,14 @@ private:
 
     void set_piece(int x, int y, Piece* piece);
 
+    std::vector<Piece*> get_pieces(Piece::Colour colour, Piece::Type type);
+    bool piece_exists(Piece::Colour colour, Piece::Type type);
+    bool piece_exists(Piece::Type type);
+
     void init_pieces(Piece::Colour colour, int pieces_y, int pawns_y);
+
+    Field::ColourType get_field_colour(int x, int y);
+    Field::ColourType get_field_colour(Piece* piece);
 
     void create_moves();
     void create_buffer_moves();
@@ -61,6 +68,7 @@ private:
     void try_move_piece(Piece* piece, int x, int y);
 
     Piece* get_king(Piece::Colour colour);
+    bool is_king_attacked(Piece::Colour colour);
 
     void check_king_check();
 
@@ -70,6 +78,15 @@ private:
 
     void do_castling(int x, int y, int old_x);
     bool is_castling(Piece* piece, int new_x, int old_x);
+
+    bool check_game_end();
+    void game_end();
+
+    void victory(Piece::Colour colour);
+    void draw();
+
+    bool is_king_check_mate(Piece::Colour winner);
+    bool is_draw();
 };
 
 #endif

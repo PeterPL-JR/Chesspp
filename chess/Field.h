@@ -10,6 +10,9 @@ public:
     struct Pos {
         const int x, y;
     };
+    enum ColourType {
+        LIGHT, DARK
+    };
 
     const sf::Color main_colour, border_colour;
 
