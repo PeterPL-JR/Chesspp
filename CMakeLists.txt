@@ -33,6 +33,8 @@ add_executable(Chesspp main.cpp
         chess/piece/type/Rook.cpp
         chess/piece/type/Queen.cpp
         chess/piece/type/King.cpp
+        graphics/drawable/Text.cpp
+        graphics/drawable/Text.h
 )
 
 target_link_libraries(Chesspp sfml-system sfml-window sfml-graphics sfml-audio sfml-network)
