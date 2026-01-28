@@ -34,12 +34,18 @@ public:
     Piece::Move* get_last_move();
 
     bool is_game();
+
+    bool is_winner(Piece::Colour colour);
+    bool is_draw();
 private:
     Piece* board[SIZE][SIZE] = {};
     std::vector<Piece*> pieces;
     Piece::Colour turn = Piece::LIGHT;
     bool is_check = false, is_check_mate = false, is_game_end = false;
     std::vector<Piece::Move> moves;
+
+    Piece::Colour winner;
+    bool is_draw_result = false;
 
     Piece* clicked_piece = nullptr;
 
@@ -87,8 +93,8 @@ private:
     void victory(Piece::Colour colour);
     void draw();
 
-    bool is_king_check_mate(Piece::Colour winner);
-    bool is_draw();
+    bool check_king_check_mate(Piece::Colour winner);
+    bool check_draw();
 };
 
 #endif

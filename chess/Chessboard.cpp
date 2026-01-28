@@ -344,11 +344,11 @@ bool Chessboard::is_castling(Piece *piece, int new_x, int old_x) {
 }
 
 bool Chessboard::check_game_end() {
-    if (is_king_check_mate(Piece::LIGHT)) {
+    if (check_king_check_mate(Piece::LIGHT)) {
         victory(Piece::LIGHT);
-    } else if (is_king_check_mate(Piece::DARK)) {
+    } else if (check_king_check_mate(Piece::DARK)) {
         victory(Piece::DARK);
-    } else if (is_draw()) {
+    } else if (check_draw()) {
         draw();
     } else {
         return false;
@@ -360,13 +360,23 @@ void Chessboard::game_end() {
     is_game_end = true;
 }
 
+bool Chessboard::is_winner(Piece::Colour colour) {
+    return is_game_end && winner == colour;
+}
+
+bool Chessboard::is_draw() {
+    return is_draw_result;
+}
+
 void Chessboard::victory(Piece::Colour colour) {
+    winner = colour;
 }
 
 void Chessboard::draw() {
+    is_draw_result = true;
 }
 
-bool Chessboard::is_king_check_mate(Piece::Colour winner) {
+bool Chessboard::check_king_check_mate(Piece::Colour winner) {
     Piece::Colour opponent = Piece::get_opposite_colour(winner);
     if (is_king_attacked(opponent)) {
         for (Piece* piece : pieces) {
@@ -380,7 +390,7 @@ bool Chessboard::is_king_check_mate(Piece::Colour winner) {
     return false;
 }
 
-bool Chessboard::is_draw() {
+bool Chessboard::check_draw() {
     bool light_stalemate = true;
     bool dark_stalemate = true;
 
