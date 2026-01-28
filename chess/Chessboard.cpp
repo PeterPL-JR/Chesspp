@@ -1,5 +1,4 @@
 #include "Chessboard.h"
-#include "../graphics/Colour.h"
 #include "../graphics/Render.h"
 
 const Piece::Type PIECES_ORDER[8] = {

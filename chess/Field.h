@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "../graphics/Colour.h"
 #include "../graphics/Window.h"
 
 class Field {
@@ -14,11 +15,9 @@ public:
         LIGHT, DARK
     };
 
-    const sf::Color main_colour, border_colour;
-
     static float size;
 
-    Field(int main_colour, int border_colour);
+    Field(Colour& main_colour, Colour& border_colour);
 
     void draw(float x, float y, Window* window);
 private:

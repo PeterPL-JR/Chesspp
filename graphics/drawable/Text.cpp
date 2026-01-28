@@ -29,11 +29,11 @@ int Text::get_size() {
     return size;
 }
 
-void Text::set_colour(Colour colour) {
+void Text::set_colour(Colour& colour) {
     text_sf.setFillColor(colour.get());
 }
 
-void Text::set_border(int size, Colour colour) {
+void Text::set_border(int size, Colour& colour) {
     text_sf.setOutlineColor(colour.get());
     text_sf.setOutlineThickness(size);
 }

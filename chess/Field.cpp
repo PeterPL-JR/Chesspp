@@ -3,14 +3,14 @@
 
 float Field::size = 64;
 
-Field::Field(int main_colour, int border_colour) : main_colour(Colour(main_colour).get()), border_colour(Colour(border_colour).get()) {
+Field::Field(Colour& main_colour, Colour& border_colour) {
     field = sf::RectangleShape();
     border_x = sf::RectangleShape();
     border_y = sf::RectangleShape();
 
-    field.setFillColor(this->main_colour);
-    border_x.setFillColor(this->border_colour);
-    border_y.setFillColor(this->border_colour);
+    field.setFillColor(main_colour.get());
+    border_x.setFillColor(border_colour.get());
+    border_y.setFillColor(border_colour.get());
 }
 
 void Field::draw(float x, float y, Window *window) {

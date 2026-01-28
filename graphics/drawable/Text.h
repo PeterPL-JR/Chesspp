@@ -21,8 +21,8 @@ public:
     sf::Font get_font();
     int get_size();
 
-    void set_colour(Colour colour);
-    void set_border(int size, Colour colour);
+    void set_colour(Colour& colour);
+    void set_border(int size, Colour& colour);
     void set_alignment(Alignment alignment);
 
     void draw(float x, float y, Window* window);
