@@ -46,18 +46,16 @@ PIECE_MOVE(pawn_move) {
     if (piece_to_capture1 != nullptr && piece_to_capture1->colour != piece->colour) arr->push_back(capture1);
     if (piece_to_capture2 != nullptr && piece_to_capture2->colour != piece->colour) arr->push_back(capture2);
 
-    if (chessboard->is_field_taken(move_x, move_y)) {
-        return arr;
-    }
-
-    arr->push_back({x, y + offset, x, y, piece});
-    if (!piece->is_moved()) {
-        move_x = x;
-        move_y = y + offset * 2;
-        if (chessboard->is_field_taken(move_x, move_y)) {
-            return arr;
+    if (!chessboard->is_field_taken(move_x, move_y)) {
+        arr->push_back({x, y + offset, x, y, piece});
+        if (!piece->is_moved()) {
+            move_x = x;
+            move_y = y + offset * 2;
+            if (chessboard->is_field_taken(move_x, move_y)) {
+                return arr;
+            }
+            arr->push_back({move_x, move_y, x, y, piece});
         }
-        arr->push_back({move_x, move_y, x, y, piece});
     }
 
     Piece::Move* last_move = chessboard->get_last_move();
