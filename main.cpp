@@ -2,6 +2,7 @@
 
 #include "chess/Chessboard.h"
 #include "chess/piece/Piece.h"
+#include "graphics/Render.h"
 
 Chessboard* chessboard;
 Window* window;
@@ -11,6 +12,7 @@ const float BOARD_Y = (Window::HEIGHT - Field::size * Chessboard::SIZE) / 2;
 
 void render() {
     chessboard->draw(BOARD_X, BOARD_Y, window);
+    draw_game_info(chessboard, window);
 }
 
 void mouse_clicked(int x, int y, sf::Mouse::Button button) {
@@ -23,6 +25,7 @@ void mouse_clicked(int x, int y, sf::Mouse::Button button) {
 
 int main() {
     Piece::init();
+    init_render();
 
     chessboard = new Chessboard;
 

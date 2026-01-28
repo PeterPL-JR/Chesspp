@@ -1,5 +1,7 @@
 #include "Text.h"
 
+sf::Font Text::FONT = load_font("font");
+
 Text::Text(std::string text, sf::Font& font, int size) : Text(font, size) {
     set_text(text);
 }

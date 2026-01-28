@@ -32,6 +32,8 @@ public:
     bool is_valid_field(int x, int y);
 
     Piece::Move* get_last_move();
+
+    bool is_game();
 private:
     Piece* board[SIZE][SIZE] = {};
     std::vector<Piece*> pieces;

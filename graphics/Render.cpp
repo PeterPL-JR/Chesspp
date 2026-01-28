@@ -1,11 +1,24 @@
 #include "Render.h"
 #include "Colour.h"
+#include "drawable/Text.h"
 
 Colour LIGHT_COLOUR_1(0xFFE3C387);
 Colour DARK_COLOUR_1(0xFF653318);
 
 Colour LIGHT_COLOUR_2(0xFFA0895E);
 Colour DARK_COLOUR_2(0xFF351C0E);
+
+const int TURN_LABEL_TEXT_SIZE = 25;
+const int TURN_TEXT_SIZE = TURN_LABEL_TEXT_SIZE * 3 / 2;
+
+const float TURN_X = Window::WIDTH - (Window::WIDTH - Chessboard::SIZE * Field::size) / 4;
+const float TURN_Y = 5;
+
+const float TURN_LABEL_TEXT_X = TURN_X;
+const float TURN_LABEL_TEXT_Y = TURN_Y + 3;
+
+const float TURN_TEXT_X = TURN_X;
+const float TURN_TEXT_Y = TURN_Y + TURN_LABEL_TEXT_SIZE / 4 * 5 + 3;
 
 Field LIGHT_FIELD(LIGHT_COLOUR_1, LIGHT_COLOUR_2);
 Field DARK_FIELD(DARK_COLOUR_1, DARK_COLOUR_2);
@@ -18,6 +31,22 @@ Circle CAPTURE_CIRCLE(0, 0x36000000, 0.85, 0.15);
 
 Box MOVE_BOX(0xFFFFCF50, 0xFFCB9925);
 Box MOVE_OLD_POS_BOX(Colour::Transparent, 0xFFCB9925);
+
+Text TURN_TEXT("Turn:", Text::FONT, TURN_LABEL_TEXT_SIZE);
+Text LIGHT_TURN_TEXT("White", Text::FONT, TURN_TEXT_SIZE);
+Text DARK_TURN_TEXT("Black", Text::FONT, TURN_TEXT_SIZE);
+
+void init_render() {
+    TURN_TEXT.set_alignment(Text::CENTER);
+
+    LIGHT_TURN_TEXT.set_colour(LIGHT_COLOUR_1);
+    LIGHT_TURN_TEXT.set_alignment(Text::CENTER);
+    LIGHT_TURN_TEXT.set_border(1, LIGHT_COLOUR_2);
+
+    DARK_TURN_TEXT.set_colour(DARK_COLOUR_1);
+    DARK_TURN_TEXT.set_alignment(Text::CENTER);
+    DARK_TURN_TEXT.set_border(1, DARK_COLOUR_2);
+}
 
 void draw_on_chessboard(Drawable* drawable, int x_offset, int y_offset, int x, int y, Window* window) {
     float xx = x_offset + x * Field::size;
@@ -44,3 +73,18 @@ void draw_clicked_piece(Piece *clicked_piece, int x, int y, Window *window) {
     draw_on_chessboard(&CLICK_BOX, x, y, clicked_piece->get_x(), clicked_piece->get_y(), window);
 }
 
+void draw_game_info(Chessboard* chessboard, Window* window) {
+    if (chessboard->is_game()) {
+        draw_turn(chessboard, window);
+    }
+}
+
+void draw_turn(Chessboard* chessboard, Window* window) {
+    TURN_TEXT.draw(TURN_LABEL_TEXT_X, TURN_LABEL_TEXT_Y, window);
+
+    if (chessboard->get_turn() == Piece::LIGHT) {
+        LIGHT_TURN_TEXT.draw(TURN_TEXT_X, TURN_TEXT_Y, window);
+    } else {
+        DARK_TURN_TEXT.draw(TURN_TEXT_X, TURN_TEXT_Y, window);
+    }
+}

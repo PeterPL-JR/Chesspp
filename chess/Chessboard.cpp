@@ -166,6 +166,10 @@ Piece::Move* Chessboard::get_last_move() {
     return &moves[moves.size() - 1];
 }
 
+bool Chessboard::is_game() {
+    return !is_game_end;
+}
+
 void Chessboard::set_piece(int x, int y, Piece *piece) {
     if (!is_valid_field(x, y)) return;
     clear_field(piece->get_x(), piece->get_y());

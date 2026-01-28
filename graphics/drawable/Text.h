@@ -8,6 +8,8 @@
 
 class Text : public Drawable {
 public:
+    static sf::Font FONT;
+
     enum Alignment {
         LEFT, CENTER, RIGHT
     };

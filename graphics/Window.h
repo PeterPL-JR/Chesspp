@@ -5,8 +5,8 @@
 
 class Window {
 public:
-    static constexpr int WIDTH = 800;
-    static constexpr int HEIGHT = WIDTH * 3 / 4;
+    static constexpr int WIDTH = 850;
+    static constexpr int HEIGHT = WIDTH * 2 / 3;
 
     static std::string TITLE;
 
