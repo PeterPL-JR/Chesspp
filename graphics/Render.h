@@ -7,6 +7,7 @@
 #include "Window.h"
 #include "../chess/Chessboard.h"
 #include "drawable/Text.h"
+#include "drawable/geometry/Rectangle.h"
 
 extern Field LIGHT_FIELD;
 extern Field DARK_FIELD;
@@ -24,6 +25,13 @@ extern Text TURN_TEXT;
 extern Text LIGHT_TURN_TEXT;
 extern Text DARK_TURN_TEXT;
 
+extern Rectangle GAME_RESULT_RECT;
+
+extern Text WINNER_TEXT;
+extern Text LIGHT_WINNER_TEXT;
+extern Text DARK_WINNER_TEXT;
+extern Text DRAW_TEXT;
+
 void init_render();
 
 void draw_on_chessboard(Drawable* drawable, int x_offset, int y_offset, int x, int y, Window* window);
@@ -37,5 +45,6 @@ void draw_clicked_piece(Piece* clicked_piece, int x, int y, Window* window);
 void draw_game_info(Chessboard* chessboard, Window* window);
 
 void draw_turn(Chessboard* chessboard, Window* window);
+void draw_game_result(Chessboard* chessboard, Window* window);
 
 #endif
