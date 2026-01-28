@@ -35,6 +35,8 @@ add_executable(Chesspp main.cpp
         chess/piece/type/King.cpp
         graphics/drawable/Text.cpp
         graphics/drawable/Text.h
+        graphics/drawable/geometry/Rectangle.cpp
+        graphics/drawable/geometry/Rectangle.h
 )
 
 target_link_libraries(Chesspp sfml-system sfml-window sfml-graphics sfml-audio sfml-network)
