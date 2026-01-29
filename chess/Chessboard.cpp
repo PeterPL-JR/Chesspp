@@ -361,7 +361,7 @@ void Chessboard::game_end() {
 }
 
 bool Chessboard::is_winner(Piece::Colour colour) {
-    return is_game_end && winner == colour;
+    return is_game_end && !is_draw_result && winner == colour;
 }
 
 bool Chessboard::is_draw() {
