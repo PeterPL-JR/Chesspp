@@ -403,7 +403,7 @@ bool Chessboard::check_draw() {
             }
         }
     }
-    if (light_stalemate || dark_stalemate) {
+    if ((turn == Piece::LIGHT && light_stalemate) || (turn == Piece::DARK && dark_stalemate)) {
         return true;
     }
 
